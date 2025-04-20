@@ -1,11 +1,5 @@
-import { useState } from "react";
-import {
-  StyleSheet,
-  ImageBackground,
-  SafeAreaView,
-  Text,
-  StatusBar,
-} from "react-native";
+
+import {StatusBar} from "react-native";
 
 import CatgoriesScreen from "./screens/CatgoriesScreen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -18,7 +12,8 @@ import MealDeatilScreen from "./screens/MealDetailScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import FavoritesContextProvider from "./store/context/favorites-context";
+import { Provider } from "react-redux";
+import store from "./store/redux/store";
 
 
 const Stack = createNativeStackNavigator();
@@ -53,8 +48,8 @@ export default function App() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <FavoritesContextProvider>
-      <NavigationContainer>
+      <Provider store={store}>
+      <NavigationContainer >
         <Stack.Navigator
           initialRouteName="MealsCatgories"
           screenOptions={{
@@ -86,7 +81,10 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-      </FavoritesContextProvider>
+      </Provider>
+    
+    
+     
     
     </>
   );

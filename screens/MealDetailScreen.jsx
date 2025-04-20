@@ -13,25 +13,31 @@ import List from "../components/List";
 import { useContext, useLayoutEffect } from "react";
 import IconButton from "../components/IconButton";
 import { FavoritesContext } from "../store/context/favorites-context";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../store/features/favoriteSlice";
 
 const MealDeatilScreen = ({ route, navigation }) => {
+const FavoriteMealId = useSelector(state=> state?.favoriteMeals?.ids)
+  const dispatch = useDispatch(); 
 
   const FavoriteMealCtx =  useContext(FavoritesContext)
   const mealId = route?.params?.mealId;
   const selectedMeal = MEALS.find((meal) => meal?.id === mealId);
 
-  const mealIsFav = FavoriteMealCtx?.ids?.includes(mealId)
+  const mealIsFav = FavoriteMealId.includes(mealId)
 
 
 
   const changeFavStatusHandler = () => {
    
     if(mealIsFav){
-      FavoriteMealCtx.removeFavorite(mealId);
+     dispatch(removeFavorite(mealId))
     }
     else{
-      FavoriteMealCtx.addFavorite(mealId);
+      dispatch(addFavorite(mealId))
     }
+    
+    
     
   };
 
@@ -49,6 +55,9 @@ const MealDeatilScreen = ({ route, navigation }) => {
       },
     });
   }, [navigation,changeFavStatusHandler,selectedMeal?.title]);
+
+
+
 
   return (
     <ScrollView>
